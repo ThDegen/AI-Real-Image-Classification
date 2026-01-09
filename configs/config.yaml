@@ -1,0 +1,6 @@
+defaults:
+  - _self_
+  - train: default
+
+project_name: "AI-Real-Image-Classification"
+experiment_name: "baseline"
