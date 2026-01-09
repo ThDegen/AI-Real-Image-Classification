@@ -11,7 +11,7 @@ To separate AI-generated images from real ones, we aim to evaluate the performan
 
 ## Machine Learning Operations Canvas 
 
-[Read the canvas](reports\MLOps_Canvas_Group_75.pdf)
+[Read the canvas](reports/MLOps_Canvas_Group_75.pdf)
 
 ## Project structure
 
