@@ -1,4 +1,4 @@
-# Project Description
+## Project Description
 
 Name: AI vs. Authentic Image Classification
 The goal of our project is to develop a classification system able to identify AI-generated images (synthetic) vs. authentic photography (real).
@@ -8,6 +8,10 @@ The dataset consists of authentic images from the Shutterstock platform, categor
 
 Model: 
 To separate AI-generated images from real ones, we aim to evaluate the performance of the ResNet model family pretrained on ImageNet.
+
+## Machine Learning Operations Canvas 
+
+[Read the canvas](reports\MLOps_Canvas_Group_75.pdf)
 
 ## Project structure
 
