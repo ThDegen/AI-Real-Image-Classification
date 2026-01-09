@@ -3,4 +3,10 @@ defaults:
   - train: default
 
 project_name: "AI-Real-Image-Classification"
-experiment_name: "baseline"
+experiment_name: "resnet"
+
+data:
+  root_dir: "data" # change later once we uploaded the data
+  num_classes: 1
+  img_size: 224
+  train_split: 0.8
