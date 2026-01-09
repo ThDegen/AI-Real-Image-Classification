@@ -2,6 +2,7 @@ import torch
 import os
 from tqdm import tqdm
 import pandas as pd
+import wandb
 
 def save_metrics(results, path):
     """Save training/validation metrics to CSV."""
@@ -63,6 +64,14 @@ class Trainer:
         print(f"[Epoch {epoch+1}/{self.epochs}] "
                     f"Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | "
                     f"Train Acc: {train_acc*100:.2f}% | Val Acc: {val_acc*100:.2f}%")
+
+        wandb.log({
+            "epoch": epoch + 1,
+            "train/loss": train_loss,
+            "train/accuracy": train_acc,
+            "val/loss": val_loss,
+            "val/accuracy": val_acc,
+        })
 
         # Save best + last
         if val_loss < self.best_val_loss:
