@@ -1,29 +1,53 @@
-from pathlib import Path
-
-import typer
+import os
 from torch.utils.data import Dataset
+from glob import glob
+from PIL import Image
+import pandas as pd
+from tqdm import tqdm
 
+class ai_vs_human_dataset(Dataset):
+    def __init__(self, root_dir, split='train', transform=None):
+        self.root_dir = root_dir
+        self.split = split
+        self.transform = transform
 
-class MyDataset(Dataset):
-    """My custom dataset."""
+        if split == 'train':
+            folder = "train_data"
+        elif split == 'test':
+            folder = "test_data_v2"
+        else:
+            raise ValueError("split must be 'train' or 'test'")
 
-    def __init__(self, data_path: Path) -> None:
-        self.data_path = data_path
+        # Read csv
+        self.df = pd.read_csv(f'{root_dir}/{split}.csv')
+        self.img_dirs = sorted(glob(os.path.join(root_dir, folder, '*')))
+        self.labels = []
 
-    def __len__(self) -> int:
-        """Return the length of the dataset."""
+        # Assign labels based on csv
+        for v in tqdm(self.img_dirs, desc="Assigning labels", total=len(self.img_dirs)):
+            file_name = os.path.basename(v)
+            meta = self.df.loc[self.df['file_name'] == file_name]
+            if not meta.empty:
+                self.labels.append(meta['label'].item())
+            else:
+                self.labels.append(-1)  
 
-    def __getitem__(self, index: int):
-        """Return a given sample from the dataset."""
+    def __len__(self):
+        return len(self.img_dirs)
 
-    def preprocess(self, output_folder: Path) -> None:
-        """Preprocess the raw data and save it to the output folder."""
+    def __getitem__(self, idx):
+        img_dir = self.img_dirs[idx]
+        label = self.labels[idx]
+        img = Image.open(os.path.join(img_dir, '*.jpg')).convert('RGB')
 
-def preprocess(data_path: Path, output_folder: Path) -> None:
-    print("Preprocessing data...")
-    dataset = MyDataset(data_path)
-    dataset.preprocess(output_folder)
+        if self.transform:
+            img = self.transform(img)
 
-
+        return img, label
+    
 if __name__ == "__main__":
-    typer.run(preprocess)
+    print("Testing ai_vs_human_dataset...")
+    dataset = ai_vs_human_dataset(root_dir='./', split='train')
+    print(f"Dataset size: {len(dataset)}")
+    img, label = dataset[0]
+    print(f"Image shape: {img.size}, Label: {label}")

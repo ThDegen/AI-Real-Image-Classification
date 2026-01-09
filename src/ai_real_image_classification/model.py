@@ -1,16 +1,23 @@
-from torch import nn
 import torch
+import torch.nn as nn
+import torchvision.models as models
 
-class Model(nn.Module):
-    """Just a dummy model to show how to structure your code"""
-    def __init__(self):
+class ResNet(nn.Module):
+    def __init__(self, n_class=1, p_drop=0.5, pretrained=True, model_name='resnet18'):
         super().__init__()
-        self.layer = nn.Linear(1, 1)
+        model = getattr(models, model_name)(weights='DEFAULT' if pretrained else None)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.layer(x)
+        # Backbone without the final FC layer
+        self.backbone = nn.Sequential(*list(model.children())[:-1])
 
-if __name__ == "__main__":
-    model = Model()
-    x = torch.rand(1)
-    print(f"Output shape of model: {model(x).shape}")
+        # Classification head
+        self.fc = nn.Sequential(
+            nn.Dropout(p=p_drop),
+            nn.Linear(model.fc.in_features, n_class)
+        )
+
+    def forward(self, x):
+        x = self.backbone(x)          
+        x = torch.flatten(x, 1)      
+        x = self.fc(x)                
+        return x
