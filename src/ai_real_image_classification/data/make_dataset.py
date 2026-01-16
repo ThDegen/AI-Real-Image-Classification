@@ -1,13 +1,13 @@
 import kagglehub
-from kagglehub import KaggleDatasetAdapter
+import shutil
 
-file_path = "data"
+def prepare_dataset(dataset_name, destination="data"):
+    path = kagglehub.dataset_download(dataset_name)
+    shutil.copytree(path, destination, dirs_exist_ok=True)
+    return path, destination
 
-# Load the latest version
-df = kagglehub.load_dataset(
-  KaggleDatasetAdapter.PANDAS,
-  "alessandrasala79/ai-vs-human-generated-dataset",
-  file_path,
-)
-
-print("First 5 records:", df.head())
+if __name__ == "__main__":
+    dataset_name = "alessandrasala79/ai-vs-human-generated-dataset"
+    print("Downloading dataset...")
+    path, destination = prepare_dataset(dataset_name)
+    print(f"Dataset downloaded to {destination}")

@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from torchvision import models
 from pytorch_lightning import LightningModule, Trainer
 from torchmetrics.functional import accuracy
+import wandb
 
 class Model(LightningModule):
     def __init__(self, lr=1e-3, n_class=1, p_drop=0.5, pretrained=True, model_name='resnet18') -> None:
@@ -46,7 +47,19 @@ class Model(LightningModule):
         self.log("train_acc", acc, on_step=False, on_epoch=True, prog_bar=True)
         return loss
     
-    def validation_step(self, batch) -> None:
+    def validation_step(self, batch, batch_idx) -> None:
+        if batch_idx == 0:
+                # Get the first 8 images from the batch
+                images = batch[0][:8]
+                preds = torch.sigmoid(self(images)).squeeze(1).tolist()
+                y = batch[1][:8].tolist()
+                captions = [f"Pred: {p}, Truth: {t}" for p, t in zip(preds[:8], y[:8])]
+                
+                self.logger.experiment.log({
+                    "val_predictions": [
+                        wandb.Image(img, caption=cap) for img, cap in zip(images, captions)
+                    ]
+                })
         loss, acc = self._shared_eval_step(batch)
         self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
         self.log("val_acc", acc, on_step=False, on_epoch=True, prog_bar=True)

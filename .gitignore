@@ -2,8 +2,9 @@ docs/site/
 
 # test cache
 manual_test/
-
+outputs/
 data/train_data/
+wandb/
 data/test_data_v2/
 
 # other local dev info

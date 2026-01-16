@@ -5,22 +5,13 @@ from PIL import Image
 import pandas as pd
 from tqdm import tqdm
 
-class ai_vs_human_dataset(Dataset):
-    def __init__(self, root_dir, split='train', transform=None):
+class AIvsHumanDataset(Dataset):
+    def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
-        self.split = split
         self.transform = transform
-
-        if split == 'train':
-            folder = "train_data"
-        elif split == 'test':
-            folder = "test_data_v2"
-        else:
-            raise ValueError("split must be 'train' or 'test'")
-
-        self.df = pd.read_csv(f'{root_dir}/{split}.csv')
+        self.df = pd.read_csv(f'{root_dir}/train.csv')
         
-        self.img_dirs = sorted(glob(os.path.join(root_dir, folder, '*')))
+        self.img_dirs = sorted(glob(os.path.join(root_dir, "train_data", '*')))
         self.labels = []
 
         print("Indexing labels...")
@@ -29,7 +20,6 @@ class ai_vs_human_dataset(Dataset):
         # Assign labels
         for v in tqdm(self.img_dirs, desc="Assigning labels"):
             file_name = os.path.basename(v)
-            
             label = label_map.get("train_data/"+ file_name, -1)
             self.labels.append(label)
 
@@ -46,11 +36,3 @@ class ai_vs_human_dataset(Dataset):
             img = self.transform(img)
 
         return img, label
-
-if __name__ == "__main__":
-    print("Testing ai_vs_human_dataset...")
-    dataset = ai_vs_human_dataset(root_dir='./data', split='train')
-    print(f"Dataset size: {len(dataset)}")
-    if len(dataset) > 0:
-        img, label = dataset[5]
-        print(f"Image shape: {img.size}, Label: {label}")

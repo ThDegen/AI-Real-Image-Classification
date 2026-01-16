@@ -1,4 +1,3 @@
-import argparse
 import os
 import torch
 import torch.nn as nn
@@ -13,7 +12,7 @@ from torch.utils.data import DataLoader, random_split
 import random
 
 from ai_real_image_classification.model import Model
-from ai_real_image_classification.data.dataset import ai_vs_human_dataset
+from ai_real_image_classification.data.dataset import AIvsHumanDataset
 
 @hydra.main(config_path="../../configs", config_name="config", version_base="1.2")
 def main(cfg: DictConfig):
@@ -26,25 +25,24 @@ def main(cfg: DictConfig):
     # Data setup
     img_tf = transforms.Compose([
         transforms.Resize((cfg.data.img_size, cfg.data.img_size)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        transforms.ToTensor()
     ])    
 
     random.seed(cfg.seed)
 
-    dataset = ai_vs_human_dataset(data_root, split='train', transform=img_tf)
+    dataset = AIvsHumanDataset(data_root, transform=img_tf)
     
     train_size = int(cfg.data.train_split * len(dataset))
     val_size   = int(cfg.data.val_split * len(dataset))
     test_size  = len(dataset) - train_size - val_size
 
-    train_set, val_set, test_set = torch.utils.data.random_split(dataset, [train_size, val_size, test_size])
+    train_set, val_set, test_set = random_split(dataset, [train_size, val_size, test_size])
     
-    train_loader = DataLoader(train_set, batch_size=cfg.train.batch_size, shuffle=True, num_workers=8)
-    val_loader = DataLoader(val_set, batch_size=cfg.train.batch_size, shuffle=False, num_workers=8)
-    test_loader = DataLoader(test_set, batch_size=cfg.train.batch_size, shuffle=False, num_workers=8)
+    train_loader = DataLoader(train_set, batch_size=cfg.train.batch_size, shuffle=True, num_workers=4, persistent_workers=True)
+    val_loader = DataLoader(val_set, batch_size=cfg.train.batch_size, shuffle=False, num_workers=4, persistent_workers=True)
+    test_loader = DataLoader(test_set, batch_size=cfg.train.batch_size, num_workers=0, shuffle=False)
 
-    model = Model(n_class=cfg.data.num_classes, pretrained=True, model_name='resnet18')
+    model = Model(n_class=cfg.data.num_classes, pretrained=False, model_name='resnet18')
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
