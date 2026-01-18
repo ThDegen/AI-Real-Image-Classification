@@ -1,8 +1,16 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.6.0
+torchvision
+lightning
+torchmetrics
 typer==0.15.2
 fastapi==0.115.12
 uvicorn==0.34.2
-
 hydra-core
 wandb
 omegaconf
+pandas
+pillow
+scikit-learn
+datasets
+kagglehub[pandas-dataset]
