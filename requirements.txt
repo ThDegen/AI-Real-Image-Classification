@@ -1,12 +1,11 @@
-torch==2.6.0
+torch
+torchvision
+pytorch-lightning
+numpy>=1.23
+
 typer==0.15.2
 fastapi==0.115.12
 uvicorn==0.34.2
-
-numpy>=1.23
-torch>=2.0
-torchvision>=0.15
-pytorch-lightning>=2.0
 
 hydra-core
 wandb
