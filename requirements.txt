@@ -2,6 +2,7 @@ torch
 torchvision
 pytorch-lightning
 numpy>=1.23
+pandas
 
 typer==0.15.2
 fastapi==0.115.12
