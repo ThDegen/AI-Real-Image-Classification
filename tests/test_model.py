@@ -23,3 +23,10 @@ def test_model():
 
     trainer.fit(model, train_dataloaders=dataloader, val_dataloaders=dataloader)
     trainer.test(model, dataloaders=dataloader)
+
+    output = model(torch.randn(5, 3, 224, 224))
+
+    print(output.shape)
+
+    assert output.shape == (5, model.hparams.n_class), "Output shape mismatch"
+    assert isinstance(output, torch.Tensor), "Output is not a tensor"
