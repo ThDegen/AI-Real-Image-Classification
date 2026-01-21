@@ -1,0 +1,15 @@
+.git/
+.dvc/
+data/
+outputs/
+multirun/
+models/
+__pycache__/
+*.pyc
+.env
+wandb/
+.pytest_cache/
+.coverage
+dist/
+build/
+*.egg-info/
