@@ -2,13 +2,13 @@ import torch
 from pytorch_lightning import Trainer
 from torch.utils.data import DataLoader, TensorDataset
 
-from ai_real_image_classification.model import Model  
+from ai_real_image_classification.model import Model
 import warnings
 
 
 def test_model():
     """
-    Runs a single batch of training, validation, and testing 
+    Runs a single batch of training, validation, and testing
     to ensure all model methods (steps, logging, optimizers) are reachable.
     """
     warnings.filterwarnings("ignore")
@@ -19,12 +19,7 @@ def test_model():
     dataset = TensorDataset(data, targets)
     dataloader = DataLoader(dataset, batch_size=2)
 
-    trainer = Trainer(
-        fast_dev_run=True,
-        accelerator="cpu",  
-        devices=1,
-        logger=False        
-    )
+    trainer = Trainer(fast_dev_run=True, accelerator="cpu", devices=1, logger=False)
 
     trainer.fit(model, train_dataloaders=dataloader, val_dataloaders=dataloader)
     trainer.test(model, dataloaders=dataloader)

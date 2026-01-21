@@ -5,10 +5,13 @@ import torchvision
 
 from ai_real_image_classification.data.dataset import AIvsHumanDataset
 
+
 @pytest.mark.skipif(not os.path.exists("./tests"), reason="No dataset found")
 def test_data():
     data_dir = "./tests"
-    dataset = AIvsHumanDataset(root_dir=data_dir, transform=torchvision.transforms.ToTensor())
+    dataset = AIvsHumanDataset(
+        root_dir=data_dir, transform=torchvision.transforms.ToTensor()
+    )
     assert len(dataset) == 2, f"Expected dataset length 2, got {len(dataset)}"
     # Check a sample
     img, label = dataset[0]
