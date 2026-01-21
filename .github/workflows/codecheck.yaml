@@ -12,21 +12,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.12"
-          cache: 'pip' # caching pip dependencies
+          python-version: 3.12
           enable-cache: true
-          
 
       - name: Install dependencies
         run: |
-          pip install ruff mypy
-          pip list
+          # assume ruff is in the dev dependencies, else you can add with
+          # uv add --dev ruff
+          uv sync --dev --locked
 
       - name: Ruff check
-        run: ruff check .
+        run: uv run ruff check .
 
-      - name: Ruff format (check only)
-        run: ruff format --check .
+      - name: Ruff format
+        run: uv run ruff format .
