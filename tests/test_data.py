@@ -19,6 +19,7 @@ def test_data():
     assert isinstance(label, int), "Label is not an integer"
     assert img.shape[0] == 3, "Image does not have 3 channels"
 
+
 @pytest.mark.skipif(not os.path.exists("./tests"), reason="No dataset found")
 def test_transforms():
     data_dir = "./tests"
