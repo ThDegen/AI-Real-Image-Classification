@@ -1,4 +1,3 @@
-import pytest
 import torch
 from pytorch_lightning import Trainer
 from torch.utils.data import DataLoader, TensorDataset

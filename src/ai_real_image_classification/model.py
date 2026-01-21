@@ -1,9 +1,7 @@
 import torch
 from torch import nn, optim
-from torch.nn import functional as F
-from torch.utils.data import DataLoader, TensorDataset
 from torchvision import models
-from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning import LightningModule
 from torchmetrics.functional import accuracy
 import wandb
 

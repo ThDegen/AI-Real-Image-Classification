@@ -1,14 +1,13 @@
 import os
 import torch
-import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import transforms 
 import hydra
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import random_split
 import random
 
 from ai_real_image_classification.model import Model
