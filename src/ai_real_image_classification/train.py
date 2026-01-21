@@ -5,7 +5,7 @@ from torchvision import transforms
 import hydra
 from omegaconf import DictConfig
 from pytorch_lightning import Trainer
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, TQDMProgressBar
 from pytorch_lightning.loggers import WandbLogger
 from torch.utils.data import random_split
 import random
@@ -74,7 +74,10 @@ def main(cfg: DictConfig):
         accelerator="auto",
         devices=1 if torch.cuda.is_available() else None,
         logger=wandb_logger,
-        callbacks=[checkpoint_callback],
+        callbacks=[
+            checkpoint_callback,
+            TQDMProgressBar(refresh_rate=10),
+        ],
     )
 
     trainer.fit(model, train_loader, val_loader)
