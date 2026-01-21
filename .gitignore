@@ -179,3 +179,13 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+.dvc/tmp/updater.lock
+.dvc/tmp/rwlock.lock
+.dvc/tmp/rwlock
+.dvc/tmp/lock
+.dvc/tmp/btime
+.dvc/config.local
+.dvc/cache/files/md5/7d/2d91efbc0a1e54935e5455bfce2a17
+.dvc/cache/files/md5/11/8e797fa7435c8b58a06e47cf03c920
+.dvc/ai-real-image-classification-2a3e9fcfbba9.json
+.dvc/config
