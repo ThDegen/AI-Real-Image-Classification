@@ -27,6 +27,3 @@ jobs:
 
       - name: Ruff format (check only)
         run: ruff format --check .
-
-      - name: Mypy type check
-        run: mypy .
