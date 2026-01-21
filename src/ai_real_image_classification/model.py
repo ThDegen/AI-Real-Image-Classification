@@ -44,7 +44,7 @@ class Model(LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx) -> None:
-        if self.logger and hasattr(self.logger, "experiment") and batch_idx == 0:
+        if batch_idx == 0:
             # Get the first 8 images from the batch
             images = batch[0][:8]
             preds = torch.sigmoid(self(images)).squeeze(1).tolist()
