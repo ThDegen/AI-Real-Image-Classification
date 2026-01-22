@@ -134,7 +134,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s243973, sXXXXXX, sXXXXXX, sXXXXXX
+s256664, s252653, s250247, s243973
 
 ### Question 3
 > **Did you end up using any open-source frameworks/packages not covered in the course during your project? If so**
@@ -148,7 +148,7 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 3 fill here ---
+No, we did not use any open-source frameworks/packages besindes the ones mentioned during the course.
 
 ## Coding environment
 
@@ -168,7 +168,9 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 4 fill here ---
+We managed dependencies using uv, a package manager, with pyproject.toml as the single source of truth for all project dependencies. Dependencies are organized into production requirements and development tools.
+
+For a new team member to get an exact copy of our development environment, they would first need to install uv and clone the repository. Running uv sync in the project root automatically creates a virtual environment and installs all dependencies with exact versions from pyproject.toml. The uv.lock file ensures reproducible installations across all team members' environments.
 
 ### Question 5
 
@@ -184,7 +186,9 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 5 fill here ---
+We used this custom template provided by the course responsibles (https://github.com/SkafteNicki/mlops_template). We used the configs folder to place all our configuration files. We used the data file to keep labels and images. We placed our dockerfiles in the folder docker. When run locally, the models folder is used for model weights. The reports folder was used for this template and the canvas. We put all the code in the "src/ai_real_image_classification" folder. Lastly, in tests we placed our unit testes.
+We removed a couple of folders which we didn't need, such as notebooks, as we didn't use jupyter notebooks throughout our project. 
+We have added a dvc folder, which points to the remote storage. Additionally, we also added a virtual environment folder, where the setup of our virtual environment is explained. 
 
 ### Question 6
 
@@ -199,7 +203,8 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 6 fill here ---
+We implemented Ruff for both linting and formatting to ensure a consistent code style and catch common errors early. For typing, we utilized native Python type hints in key modules to improve code clarity and facilitate better IDE support. We added these rules to the pre-commit so that we have a proper code base throughout our project.
+These concepts are critical in larger projects because they maintain codebase health and facilitate collaboration. Linting and formatting prevent style-related friction and keep the code readable for all team members regardless of their personal preferences. This enables us to catch potential bugs early and make complex data flows in ML pipelines easier to trace. Finally, clear documentation ensures that the system architecture and API usage are transparent, allowing the project to scale without losing vital knowledge or increasing technical debt.
 
 ## Version control
 
@@ -218,7 +223,9 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 7 fill here ---
+We implemented two unit tests for our dataset. Since using the full dataset for testing is not practical, we included two sample images under tests/train_data and their corresponding labels in tests/train.csv.
+The tests in test_data.py verify, image preprocessing works correctly, dataset length matches the expected number of samples, the types of the image and label are correct (torch.Tensor and int), images have 3 channels and lastly transformations such as resizing are applied correctly.
+Tests inside the test_model.py ensures that the model’s training, validation, and testing steps work as expected. It runs a single batch through all stages using synthetic data to verify that all model methods, logging, and optimizers are reachable. Assertions check both the output shape and type, which is essential for the project.
 
 ### Question 8
 
@@ -233,7 +240,7 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 8 fill here ---
+yusuf
 
 ### Question 9
 
@@ -248,7 +255,7 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 9 fill here ---
+During the creation of our project, we used branches in order to try out local changes without affecting the workflow of other team members. When changes were made, we opened a pull request where team members controlled that there isn't anything affecting the performance of the main project. After torough testing and if no problem was found, we merged them back to the main branch. We also included automated unit tests to automatically check the integrity of the code.
 
 ### Question 10
 
@@ -263,7 +270,11 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 10 fill here ---
+We did make use of DVC for version controlling our datasets. Specifically, we tracked our training data (79,950 images, ~4.6GB), test data, and CSV metadata files using files, while storing the actual data on Google Cloud Storage.
+
+In the end, it helped us in controlling the data management part of our pipeline. First, it kept our Git repository small and fast by only committing lightweight reference files instead of gigabytes of images. Second, it ensured reproducibility we could always trace back which exact dataset version was used for any experiment, making it easy to verify results or debug issues.
+
+Additionally, DVC made team collaboration straightforward. Instead of manually sharing large files, team members could simply run `dvc pull` to get the exact dataset version needed for any experiment. For our image classification project, where the quality and composition of training data directly affects model performance, having version control over our datasets was crucial for maintaining consistency across experiments and understanding how data changes impacted our results.
 
 ### Question 11
 
@@ -378,7 +389,11 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 17 fill here ---
+Cloud Storage: is used for storing and version controlling our datasets through DVC. Our training images (~4.6GB, 79,950 files) and test data are stored in the GCS bucket, allowing team members to pull specific dataset versions without bloating the Git repository.
+
+Compute Engine: is used for running our model training on a virtual machine. We deployed a VM instance (name: ric-instance, type: e2-medium) in the europe-west1-b zone. This VM provides the computational resources needed to train our image classification model in the cloud, eliminating the need for local GPU hardware and allowing us to run long training jobs remotely.
+
+@Theo look up what you used
 
 ### Question 18
 
@@ -393,7 +408,11 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 18 fill here ---
+We used the Compute Engine to run our model training and development tasks. We deployed a VM instance named `ric-instance` with an `e2-medium` machine type in the `europe-west1-b` zone. The e2-medium instance provides 2 vCPUs and 4GB of memory, which was sufficient for our training workload.
+
+The VM runs with both internal IP (10.132.0.2) and external IP (35.240.35.18), allowing us to access it remotely for development and monitoring. We used this instance to execute our training scripts and experiments in a cloud environment, which eliminated dependencies on local hardware and provided a consistent development environment across our team.
+
+The Compute Engine setup integrated with our other GCP services-the VM could directly access our datasets stored in Cloud Storage through DVC, pulling the necessary training and test data on demand. This approach allowed us to run longer training jobs without tying up local machines, and made it easy to scale our compute resources if needed by changing the machine type or deploying additional instances for parallel experiments.
 
 ### Question 19
 
@@ -468,7 +487,8 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 24 fill here ---
+We were able to deploy our API both locally and on the cloud. Locally, it is done via FastAPI. Using the FastAPI /docs page, we were able to try out functions without having a proper web interface.
+The process was the same for our cloud access, besides addtional steps to start the application online. (remaining part Theo)
 
 ### Question 25
 
@@ -517,7 +537,7 @@ s243973, sXXXXXX, sXXXXXX, sXXXXXX
 >
 > Answer:
 
---- question 27 fill here ---
+As the model was trained locally, this didn't cause any issues. Additionally, we made sure to use lightweight Python versions and use economically inexpensive cloud hardware. @all report credits)
 
 ### Question 28
 
