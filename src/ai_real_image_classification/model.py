@@ -1,26 +1,17 @@
 import torch
-from torch import nn
+from torch import nn, optim
 from torchvision import models
 from pytorch_lightning import LightningModule
 from torchmetrics.functional import accuracy
 import wandb
-import hydra
 
 
 class Model(LightningModule):
     def __init__(
-        self,
-        optimizer_cfg,
-        lr=1e-3,
-        n_class=1,
-        p_drop=0.5,
-        pretrained=True,
-        model_name="resnet18",
+        self, lr=1e-3, n_class=1, p_drop=0.5, pretrained=True, model_name="resnet18"
     ) -> None:
         super().__init__()
-        self.save_hyperparameters(ignore=["optimizer_cfg"])
-
-        self.optimizer_cfg = optimizer_cfg
+        self.save_hyperparameters()
 
         model = getattr(models, model_name)(weights="DEFAULT" if pretrained else None)
 
@@ -88,6 +79,4 @@ class Model(LightningModule):
         return loss, acc
 
     def configure_optimizers(self):
-        optimizer_fn = hydra.utils.instantiate(self.optimizer_cfg)
-        optimizer = optimizer_fn(self.parameters())
-        return optimizer
+        return optim.Adam(self.parameters(), lr=self.hparams.lr)

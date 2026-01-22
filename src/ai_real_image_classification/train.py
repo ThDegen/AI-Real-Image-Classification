@@ -64,7 +64,6 @@ def main(cfg: DictConfig):
         n_class=cfg.data.num_classes,
         pretrained=cfg.train.pretrained,
         model_name="resnet18",
-        optimizer_cfg=cfg.optimizer,
     )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
