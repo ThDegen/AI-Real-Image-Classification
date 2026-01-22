@@ -1,28 +1,36 @@
 FROM python:3.12-slim
 
+# Install only essential system dependencies and clean up in same layer
 RUN apt-get update && apt-get install -y \
     build-essential \
     git \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 WORKDIR /app
 
+# Copy only requirements first for better caching
 COPY requirements.txt .
 
-# Install PyTorch packages with CUDA support first
+# Install PyTorch packages with CUDA support for training
 RUN pip install --no-cache-dir torch==2.6.0 torchvision>=0.21.0 --index-url https://download.pytorch.org/whl/cu124
 
-# Install remaining requirements
-RUN pip install --no-cache-dir -r requirements.txt
+# Install remaining requirements and clean up
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip cache purge
 
-COPY . .
+# Copy only necessary application files (not all files)
+COPY src/ ./src/
+COPY pyproject.toml ./
+COPY .dvc/ ./.dvc/
+COPY data/*.dvc ./data/
 
-# Install the package itself
-RUN pip install --no-cache-dir -e .
+# Install the package itself and clean up
+RUN pip install --no-cache-dir -e . \
+    && pip cache purge
 
 # Initialize git repository for DVC (always do this since .git is excluded)
-RUN rm -rf .git && \
-    git init && \
+RUN git init && \
     git config user.email "docker@container" && \
     git config user.name "Docker Container" && \
     git add -A && \

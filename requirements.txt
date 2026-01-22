@@ -1,5 +1,4 @@
 pytorch-lightning>=2.6.0
-lightning>=2.6.0
 dvc[gs]>=3.0.0
 torchmetrics
 typer==0.15.2
