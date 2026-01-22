@@ -1,13 +1,14 @@
 defaults:
   - _self_
   - train: default
+  - optimizer: adamw
 
 project_name: "AI-Real-Image-Classification"
-experiment_name: "resnet"
-seed : 42
+experiment_name: "resnet18_experiment"
+seed : 20
 
 data:
-  root_dir: "data" # change later once we uploaded the data
+  root_dir: "data"
   num_classes: 1
   img_size: 224
   train_split: 0.7

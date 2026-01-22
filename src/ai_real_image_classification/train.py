@@ -5,7 +5,7 @@ from torchvision import transforms
 import hydra
 from omegaconf import DictConfig
 from pytorch_lightning import Trainer
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, TQDMProgressBar
 from pytorch_lightning.loggers import WandbLogger
 from torch.utils.data import random_split
 import random
@@ -60,7 +60,11 @@ def main(cfg: DictConfig):
         test_set, batch_size=cfg.train.batch_size, num_workers=0, shuffle=False
     )
 
-    model = Model(n_class=cfg.data.num_classes, pretrained=False, model_name="resnet18")
+    model = Model(
+        n_class=cfg.data.num_classes,
+        pretrained=cfg.train.pretrained,
+        model_name="resnet18",
+    )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
@@ -74,7 +78,10 @@ def main(cfg: DictConfig):
         accelerator="auto",
         devices=1 if torch.cuda.is_available() else None,
         logger=wandb_logger,
-        callbacks=[checkpoint_callback],
+        callbacks=[
+            checkpoint_callback,
+            TQDMProgressBar(refresh_rate=10),
+        ],
     )
 
     trainer.fit(model, train_loader, val_loader)
