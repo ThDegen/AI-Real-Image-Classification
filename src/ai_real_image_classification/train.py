@@ -60,7 +60,12 @@ def main(cfg: DictConfig):
         test_set, batch_size=cfg.train.batch_size, num_workers=0, shuffle=False
     )
 
-    model = Model(n_class=cfg.data.num_classes, pretrained=False, model_name="resnet18")
+    model = Model(
+        n_class=cfg.data.num_classes,
+        pretrained=cfg.train.pretrained,
+        model_name="resnet18",
+        optimizer_cfg=cfg.optimizer,
+    )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
