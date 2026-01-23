@@ -1,42 +1,25 @@
-FROM python:3.12-slim
+FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
 
+# Install only essential system dependencies and clean up in same layer
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+python3.12 \
+python3-pip \
+&& rm -rf /var/lib/apt/lists/*
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+# Setup work directory
 WORKDIR /app
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
 
-COPY requirements.txt .
+# Use copy mode for Docker
+ENV UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    PYTHONPATH=/app/src
 
-# Install PyTorch packages with CUDA support first
-RUN pip install --no-cache-dir torch==2.6.0 torchvision>=0.21.0 --index-url https://download.pytorch.org/whl/cu124
+RUN uv sync --frozen --no-dev
 
-# Install remaining requirements
-RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ ./src/
+COPY configs/ ./configs/
 
-COPY . .
-
-# Install the package itself
-RUN pip install --no-cache-dir -e .
-
-# Initialize git repository for DVC (always do this since .git is excluded)
-RUN rm -rf .git && \
-    git init && \
-    git config user.email "docker@container" && \
-    git config user.name "Docker Container" && \
-    git add -A && \
-    git commit -m "Initial commit for DVC"
-
-ENV PYTHONPATH=/app/src
-
-# Create entrypoint script that pulls data before training
-RUN echo '#!/bin/bash\n\
-set -e\n\
-echo "Pulling data with DVC..."\n\
-dvc pull\n\
-echo "Starting training..."\n\
-exec python src/ai_real_image_classification/train.py "$@"' > /entrypoint.sh && \
-    chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["uv", "run", "src/ai_real_image_classification/train.py"]

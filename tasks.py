@@ -21,39 +21,26 @@ def create_environment(ctx: Context) -> None:
 @task
 def requirements(ctx: Context) -> None:
     """Install project requirements."""
-    ctx.run("pip install -U pip setuptools wheel", echo=True, pty=not WINDOWS)
-    ctx.run("pip install -r requirements.txt", echo=True, pty=not WINDOWS)
-    ctx.run("pip install -e .", echo=True, pty=not WINDOWS)
+    ctx.run("uv sync --locked")
 
 
 @task(requirements)
 def dev_requirements(ctx: Context) -> None:
     """Install development requirements."""
-    ctx.run('pip install -e .["dev"]', echo=True, pty=not WINDOWS)
-
-
-# Project commands
-@task
-def preprocess_data(ctx: Context) -> None:
-    """Preprocess data."""
-    ctx.run(
-        f"python src/{PROJECT_NAME}/data.py data/raw data/processed",
-        echo=True,
-        pty=not WINDOWS,
-    )
+    ctx.run("uv sync --dev --locked")
 
 
 @task
 def train(ctx: Context) -> None:
     """Train model."""
-    ctx.run(f"python src/{PROJECT_NAME}/train.py", echo=True, pty=not WINDOWS)
+    ctx.run(f"uv run src/{PROJECT_NAME}/train.py", echo=True)
 
 
 @task
 def test(ctx: Context) -> None:
     """Run tests."""
-    ctx.run("coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
-    ctx.run("coverage report -m -i", echo=True, pty=not WINDOWS)
+    ctx.run("uv run coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
+    ctx.run("uv run coverage report -m -i", echo=True, pty=not WINDOWS)
 
 
 @task
@@ -71,12 +58,18 @@ def docker_build(ctx: Context, progress: str = "plain") -> None:
     )
 
 
+@task
+def onnx_export(ctx: Context) -> None:
+    """Export model to ONNX format."""
+    ctx.run(f"uv run src/{PROJECT_NAME}/export_onnx.py", echo=True)
+
+
 # Documentation commands
 @task(dev_requirements)
 def build_docs(ctx: Context) -> None:
     """Build documentation."""
     ctx.run(
-        "mkdocs build --config-file docs/mkdocs.yaml --site-dir build",
+        "uv run mkdocs build --config-file docs/mkdocs.yaml --site-dir build",
         echo=True,
         pty=not WINDOWS,
     )
@@ -85,4 +78,6 @@ def build_docs(ctx: Context) -> None:
 @task(dev_requirements)
 def serve_docs(ctx: Context) -> None:
     """Serve documentation."""
-    ctx.run("mkdocs serve --config-file docs/mkdocs.yaml", echo=True, pty=not WINDOWS)
+    ctx.run(
+        "uv run mkdocs serve --config-file docs/mkdocs.yaml", echo=True, pty=not WINDOWS
+    )

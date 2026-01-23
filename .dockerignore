@@ -10,7 +10,6 @@ data/*
 !data/.gitignore
 outputs/
 multirun/
-models/
 __pycache__/
 *.pyc
 .env

@@ -13,3 +13,6 @@ pillow
 scikit-learn
 datasets
 kagglehub[pandas-dataset]
+
+httpx
+locust
