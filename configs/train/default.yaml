@@ -1,8 +1,10 @@
 defaults:
   - _self_
 
+strategy: "single_device"
 epochs: 10
 lr: 0.001
 batch_size: 32
+num_workers: 4
 save_dir: "./results"
 pretrained: true

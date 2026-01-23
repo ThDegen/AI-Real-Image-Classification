@@ -5,15 +5,15 @@ steps:
     'build',
     '.',
     '-t',
-    'europe-west1-docker.pkg.dev/$PROJECT_ID/training-repo/pytorch-trainer_gpu',
+    'europe-west1-docker.pkg.dev/ai-real-image-classification/training-repo/pytorch-trainer-gpu',
     '-f',
-    './docker/mytrainer.dockerfile'
+    './docker/trainer.dockerfile'
   ]
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push container image'
   args: [
     'push',
-    'europe-west1-docker.pkg.dev/$PROJECT_ID/training-repo/pytorch-trainer_gpu'
+    'europe-west1-docker.pkg.dev/ai-real-image-classification/training-repo/pytorch-trainer-gpu'
   ]
 options:
   logging: CLOUD_LOGGING_ONLY
