@@ -545,7 +545,8 @@ Overall, this setup ensures keeping the operational overhead minimal and enablin
 >
 > Answer:
 
-++ theo write some small code
+For unit testing, we utilized the pytest framework combined with FastAPI's TestClient to ensure individual components functioned correctly. We implemented test cases that verified our API endpoints, specifically the /predict route, returned the correct HTTP status codes and valid JSON structures containing the expected probability and prediction labels. For load testing, we employed the Locust framework to evaluate the system's performance under stress. We created a custom locustfile that defined a simulated user capable of generating dummy image data in memory and sending concurrent POST requests to our model. Results of our testing can be found here:
+[Image1](reports/figures/q25.png)
 
 ### Question 26
 
