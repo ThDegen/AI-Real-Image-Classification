@@ -100,7 +100,7 @@ def main(cfg: DictConfig):
     trainer = Trainer(
         max_epochs=cfg.train.epochs,
         accelerator="auto",
-        devices="cuda" if torch.cuda.is_available() else "cpu",
+        devices="auto",
         logger=wandb_logger,
         callbacks=[
             checkpoint_callback,
