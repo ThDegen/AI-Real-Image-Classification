@@ -6,6 +6,13 @@ defaults:
 project_name: "AI-Real-Image-Classification"
 experiment_name: "resnet18_experiment"
 seed : 20
+num_workers: 4
+
+gcp:
+  use_gcp: false
+  bucket_name: "ai-real-image-classification-storage"
+  data_dir: "training_data"
+  output_dir: "model_outputs"
 
 data:
   root_dir: "data"
