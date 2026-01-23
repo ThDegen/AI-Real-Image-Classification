@@ -548,7 +548,7 @@ The process was the same for our cloud access, besides addtional steps to start 
 > Answer:
 
 As the model was trained locally, this didn't cause any issues. Additionally, we made sure to use lightweight Python versions and use economically inexpensive cloud hardware.
-Student 250247 using the central Google Cloud account for all infrastructure work consumed roughly kr. 45.08 in credits, which were fully covered by our free grant. The most expensive service was Container Registry Vulnerability Scanning at kr. 39.54, an automated security feature that became the main cost driver. Working in the cloud provided essential tools for our MLOps pipeline but underscored the critical need to monitor and understand the cost implications of every enabled service.
+Student 250247 using the central Google Cloud account for all infrastructure work consumed roughly kr. 45.08 in credits. The most expensive service was Container Registry Vulnerability Scanning at kr. 39.54, an automated security feature that became the main cost driver. Working in the cloud provided essential tools for our MLOps pipeline but underscored the critical need to monitor and understand the cost implications of every enabled service.
 
 ++@all report credits)
 
