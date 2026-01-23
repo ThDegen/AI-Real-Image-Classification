@@ -168,9 +168,9 @@ No, we did not use any open-source frameworks/packages besides the ones mentione
 >
 > Answer:
 
-We managed dependencies using uv, a package manager, with pyproject.toml as the single source of truth for all project dependencies. Dependencies are organized into production requirements and development tools.
+We managed dependencies using uv, a package manager, with pyproject.toml as the single source of truth for all project dependencies. Dependencies are organized into production requirements and development tools. This structure prevents verion conflicts and keeps our production images lightweight.
 
-For a new team member to get an exact copy of our development environment, they would first need to install uv and clone the repository. Running uv sync in the project root automatically creates a virtual environment and installs all dependencies with exact versions from pyproject.toml. The uv.lock file ensures reproducible installations across all team members' environments.
+For a new team member to get an exact copy of our development environment, they would first need to install uv and clone the repository. Running uv sync in the project root automatically creates a virtual environment and installs all dependencies with exact versions from pyproject.toml. The uv.lock file ensures reproducible installations across all team members' environments. This guarentees that every teammember operates on identical package binaries.
 
 ### Question 5
 
@@ -465,8 +465,6 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-![Image1](reports/figures/Q20_2.png)
-![Image2](reports/figures/q20_4.jpeg)
 ![Image3](reports/figures/q20_5.jpeg)
 ![Image4](reports/figures/q20_3.jpeg)
 
@@ -511,8 +509,8 @@ However, we encountered instability during execution. Several jobs failed outrig
 >
 > Answer:
 
-We successfully developed a functional API for our model using FastAPI, which provided an interface for real-time inference. By using its built-in support for an user interface, we utilized the /docs endpoint to interactively test our functions and validate data schemas without writing additional client-side code. This approach allowed us to check that our model remained accessible and easily verifiable during development and final testing. 
-We implemented this API twice, once for the ONNX implementation (new) and once for the torch-based model (old). We used ONNX implementation in order to enable cross-platform and cross-library support while improving inference performance.
+We successfully developed a functional API for our model using FastAPI, which provides an interface for real-time inference. By using its built-in support for an user interface, we utilized the /docs endpoint to interactively test our functions and validate data schemas without writing additional client-side code. This approach allowed us to check that our model remained accessible and easily verifiable during development and final testing. 
+We implemented this API twice, teh first time for the ONNX implementation (new) and the second for the torch-based model (old). We used ONNX implementation in order to enable cross-platform and cross-library support while improving inference performance.
 
 ### Question 24
 
@@ -547,7 +545,7 @@ Overall, this setup ensures keeping the operational overhead minimal and enablin
 >
 > Answer:
 
-For unit testing, we utilized the pytest framework combined with FastAPI's TestClient to ensure individual components functioned correctly. We implemented test cases that verified our API endpoints, specifically the /predict route, returned the correct HTTP status codes and valid JSON structures containing the expected probability and prediction labels. For load testing, we employed the Locust framework to evaluate the system's performance under stress. We created a custom locustfile that defined a simulated user capable of generating dummy image data in memory and sending concurrent POST requests to our model. Results of our testing can be found here:
+For unit testing, we utilized the pytest framework, which combined with FastAPI's TestClient ensures that individual components functioned correctly. We implemented test cases that verified our API endpoints, specifically the /predict route, returned the correct HTTP status codes and valid JSON structures containing the expected probability and prediction labels. For load testing, we employed the Locust framework in order to evaluate the system's performance under stress. We created a custom locustfile that defined a simulated user capable of generating dummy image data in memory and sending concurrent POST requests to our model. Results of our testing can be found here:
 ![Image1](reports/figures/q25.png)
 
 ### Question 26
