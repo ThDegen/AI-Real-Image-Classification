@@ -463,8 +463,10 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](reports/figures/Q20_1.png)
-[Image2](reports/figures/Q20_2.png)
+[Image1](reports/figures/Q20_2.png)
+[Image2](reports/figures/q20_4.jpeg)
+[Image3](reports/figures/q20_5.jpeg)
+[Image4](reports/figures/q20_3.jpeg)
 
 ### Question 21
 
@@ -543,7 +545,7 @@ Overall, this setup ensures keeping the operational overhead minimal and enablin
 >
 > Answer:
 
---- question 25 fill here ---
+++ theo write some small code
 
 ### Question 26
 
@@ -598,7 +600,11 @@ Student 250247 using the central Google Cloud account for all infrastructure wor
 >
 > Answer:
 
---- question 28 fill here ---
+We implemented a user-friendly frontend for our API to make the model accessible to non-technical users. We used Streamlit to create a web interface titled "Real vs Fake Image Classifier."
+
+The frontend allows users to easily upload an image file (JPG, JPEG, or PNG) via a drag-and-drop interface. Once an image is uploaded, the application displays it and provides a "Predict" button. When clicked, the frontend sends the image data as a request to our backend API hosted on Google Cloud Run.
+
+++ maybe add alert part here
 
 ### Question 29
 
@@ -615,7 +621,7 @@ Student 250247 using the central Google Cloud account for all infrastructure wor
 >
 > Answer:
 
---- question 29 fill here ---
+++ yusuf
 
 ### Question 30
 
