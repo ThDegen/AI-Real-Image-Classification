@@ -624,6 +624,7 @@ The frontend allows users to easily upload an image file (JPG, JPEG, or PNG) via
 
 
 Our MLOps pipeline is designed to automate the entire lifecycle of our machine learning model from development to production The process begins with data and code management, where source code is versioned in GitHub, and large datasets are managed using DVC (Data Version Control). When code is pushed to the repository, Github Actions triggered and tests are done. If tests are passed, Google Cloud Build triggers a CI/CD workflow that builds Docker images for our training script, storing them in Artifact Registry. For model training, we used Vertex AI to execute training jobs using these containerized images. During training, Weights & Biases tracks our experiments and performance metrics in real-time. Finally, we deploy backend and frontend images through Cloud Run, where a FastAPI backend serves predictions to an Streamlit frontend by using trained weights.
+[Image1](reports/figures/q31.jpeg)
 
 ### Question 30
 
