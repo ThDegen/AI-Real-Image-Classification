@@ -357,7 +357,13 @@ Additionally, DVC made team collaboration straightforward. Instead of manually s
 >
 > Answer:
 
---- question 15 fill here ---
+Docker played a central role in our project by enabling consistent, reproducible environments for model training across local development and cloud execution. We created a dedicated Dockerfile (located in docker/trainer.dockerfile) that installed PyTorch, our project dependencies, and copied the training script along with necessary utilities. This ensured the same runtime behavior whether running locally or in the cloud.
+Initially, we built and tested the image locally using Docker Desktop with the command:
+`docker build -f docker/trainer.dockerfile -t ai-real-image-classification-trainer.`
+This workflow allowed rapid iteration and debugging before moving to the cloud. Later, to scale experiments on Vertex AI, we shifted to cloud-native builds. We used Cloud Build to construct and push the same image to Artifact Registry with:
+`gcloud builds submit . --config=cloudbuild-trainer.yaml`
+The resulting container was then referenced in Vertex AI custom training jobs.
+link to docker file: [trainer.dockerfile](docker/trainer.dockerfile)
 
 ### Question 16
 
