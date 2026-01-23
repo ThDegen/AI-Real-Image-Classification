@@ -1,6 +1,0 @@
-[core]
-    remote = megaremote
-['remote "localremote"']
-    url = ../../dvc_remote
-['remote "megaremote"']
-    url = webdav://127.0.0.1:4443/5jwEGQ7R/DVC-Remote

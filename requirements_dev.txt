@@ -1,6 +1,5 @@
 # commands
 invoke==2.2.0
-dvc==3.66.1
 
 # pre-commit
 pre-commit==4.1.0
@@ -16,3 +15,7 @@ ruff==0.11.6
 mkdocs==1.6.1
 mkdocs-material==9.6.1
 mkdocstrings-python==1.16.10
+
+# cloud
+dvc[gs]==3.66.1
+gdown == 5.2.1

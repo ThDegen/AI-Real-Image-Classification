@@ -1,0 +1,23 @@
+steps:
+# 1. Inject Secrets & Project ID into your Config (Skip the Docker steps)
+- name: 'alpine'
+  id: "Prepare Training Config"
+  entrypoint: "sh"
+  env: ['PROJECT_ID=$PROJECT_ID']
+  secretEnv: ['WANDB_API_KEY']
+  args:
+    - '-c'
+    - |
+      apk add --no-cache gettext
+      envsubst < config.template.yaml > config.yaml
+
+# 2. Submit to Vertex AI
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'Submit Vertex Job'
+  args: ['ai', 'custom-jobs', 'create', '--region=europe-west1', '--display-name=fast-run', '--config=config.yaml']
+
+availableSecrets:
+  secretManager:
+  # Use the Project ID instead of the number
+  - versionName: "projects/ai-real-image-classification/secrets/WANDB_API_KEY/versions/latest"
+    env: 'WANDB_API_KEY'

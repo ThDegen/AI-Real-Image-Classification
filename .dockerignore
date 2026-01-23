@@ -1,6 +1,13 @@
+# Git - exclude completely, we'll init in Dockerfile
 .git/
-.dvc/
-data/
+
+# DVC - keep config, exclude cache
+.dvc/.gitignore
+.dvc/cache/
+.dvc/tmp/
+data/*
+!data/*.dvc
+!data/.gitignore
 outputs/
 multirun/
 __pycache__/
@@ -12,3 +19,16 @@ wandb/
 dist/
 build/
 *.egg-info/
+.ai/
+.idea/
+.venv/
+venv/
+*.log
+.output.txt
+terraform/
+.github/
+notebooks/
+reports/
+docs/
+
+scripts/
