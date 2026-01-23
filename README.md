@@ -621,7 +621,8 @@ The frontend allows users to easily upload an image file (JPG, JPEG, or PNG) via
 >
 > Answer:
 
-++ yusuf
+
+Our MLOps pipeline is designed to automate the entire lifecycle of our machine learning model from development to production The process begins with data and code management, where source code is versioned in GitHub, and large datasets are managed using DVC (Data Version Control). When code is pushed to the repository, Github Actions triggered and tests are done. If tests are passed, Google Cloud Build triggers a CI/CD workflow that builds Docker images for our training script, storing them in Artifact Registry. For model training, we used Vertex AI to execute training jobs using these containerized images. During training, Weights & Biases tracks our experiments and performance metrics in real-time. Finally, we deploy backend and frontend images through Cloud Run, where a FastAPI backend serves predictions to an Streamlit frontend by using trained weights.
 
 ### Question 30
 
@@ -655,7 +656,7 @@ One of the struggles of the project was managing infrastructure and deployment c
 
 Student s250247 was responsible for filling in the MLOps canvas, managing version control using DVC, creating and managing the Google Cloud environment, and developing the Docker containers. 
 Student s252653 was responsible for writing the scripts of model and dataset, editing model code suitable for lightning, creating unit tests, deploying backend and frontend, writing frontend, transforming api made by torch to the ONNX.
-Student s256664 ++
+Student s256664 was responsible for implementing Cloud Run and FastAPI for the torch implementation of our model, their respective api tests and for load testing.
 Student s243973 was responsible for designing and maintaining the continuous integration workflows, implementing linting and automated testing, and ensuring cross-platform compatibility through multi-OS and multi-Python version testing.
 All team members contributed to the codebase, documentation, and participated in problem-solving discussions. 
 We have used generative AI tools, specifically Claude and Gemini, to assist in clarifying technical concepts. Additionally, Claude Agent and Copilot was used for debugging. 
