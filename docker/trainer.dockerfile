@@ -1,16 +1,16 @@
 FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
 
+# Install only essential system dependencies and clean up in same layer
 RUN apt-get update && apt-get install -y \
-    python3.12 \
-    python3.12-venv \
-    python3-pip \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+python3.12 \
+python3.12-venv \
+python3-pip \
+ca-certificates \
+&& rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Setup work directory
 WORKDIR /app
-
 # Copy dependency files
 COPY pyproject.toml uv.lock ./
 
