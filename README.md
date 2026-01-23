@@ -240,7 +240,9 @@ Tests inside the test_model.py ensures that the model’s training, validation, 
 >
 > Answer:
 
-yusuf
+[Image1](reports/figures/q8.jpeg)
+The total code coverage of our project is 96%, calculated across all source and test files. Most modules have 100% coverage, while the model module has slightly lower coverage (90%) due to a few untested lines. Overall, this level of coverage gives us a high degree of confidence that the core functionality behaves as expected under normal conditions.
+However, even if our code coverage were 100%, we would not consider the code to be completely error free. Code coverage covers only performance of model and dataset on dummy data, edge cases or real-world scenarios are not handled. Bugs related to numerical stability, unexpected input data, deployment environments, or performance issues may still exist despite full coverage. Therefore, high coverage is an important however it should be complemented with careful reviews.
 
 ### Question 9
 
@@ -291,7 +293,13 @@ Additionally, DVC made team collaboration straightforward. Instead of manually s
 >
 > Answer:
 
---- question 11 fill here ---
+We have set up our continuous integration (CI) using GitHub Actions and organized it into two separate workflow files, each targeting a specific aspect of code quality and reliability.
+
+The first workflow, codecheck.yaml, focuses on static code quality checks. This workflow is triggered on every push and pull request to ensure that all incoming code adheres to our style and quality standards. It runs on Ubuntu and uses Ruff for both linting and formatting. By enforcing linting and formatting automatically in CI, we ensure consistent code style across the project and catch common issues early. The workflow uses uv to manage the Python environment and dependencies, and dependency caching is enabled via astral-sh/setup-uv, which significantly speeds up repeated runs.
+
+The second workflow, test.yaml, is dedicated to running unit tests. This workflow is also triggered on pushes and pull requests, but it uses a matrix strategy to test across multiple operating systems and Python versions. Specifically, tests are executed on both Ubuntu and Windows, and across Python 3.11 and 3.12, increasing confidence that the code behaves correctly in different environments. Tests are run using pytest in verbose mode, allowing for clear visibility into test execution and failures.
+
+In addition, we added a deployment job that runs only after all tests pass and only on pushes to the main branch. This job authenticates with Google Cloud Platform, sets up the Cloud SDK, and triggers Cloud Build using cloudbuild.yaml to automatically build and deploy the application to Cloud Run. Overall, this CI/CD setup ensures code quality, correctness, and reliable automated deployment.
 
 ## Running code and tracking experiments
 
@@ -310,7 +318,7 @@ Additionally, DVC made team collaboration straightforward. Instead of manually s
 >
 > Answer:
 
---- question 12 fill here ---
+We used hydra and weights and biases to manage all our settings. This allowed us to change and store all configurations. When we ran an experiment, we were able to compare performance based on different parameters such as learning rate, batch size, and more. Moreover, we saved weights and configurations together centrally.
 
 ### Question 13
 
@@ -325,7 +333,7 @@ Additionally, DVC made team collaboration straightforward. Instead of manually s
 >
 > Answer:
 
---- question 13 fill here ---
+To ensure a full reproducibility and prevent data loss, we integrated Hydra for configuration management and Weights & Biases for real-time experiment tracking. Every run is governed by YAML files stored in a dedicated directory, which archive the exact hyperparameters used. To maintain environment consistency, we utilized pyproject.toml and uv.lock files, allowing anyone to recreate the identical software stack using the uv sync command. This dual approach enables us to make both the execution logic and the computational environment immutable. To reproduce any past experiment, we can simply retrieve the archived Hydra configuration and runs it within the synchronized environment.
 
 ### Question 14
 
@@ -342,7 +350,16 @@ Additionally, DVC made team collaboration straightforward. Instead of manually s
 >
 > Answer:
 
---- question 14 fill here ---
+As seen in the first image, we have utilized Weights & Biases to track and compare multiple experimental runs to identify the most effective hyperparameters. The dashboard includes a media panel that logs validation predictions at specific steps. This allows for a asses the model's performance on individual samples with their predicted scores.
+
+The charts in the first and third images track three critical metrics of Loss, Accuracy, and Test Performance.
+
+Tracking training and validation Loss is essential for monitoring convergence. As shown in the validation loss graph, the loss decreases steadily. This indicates the model is effectively learning features without significant divergence. Comparing train_loss against val_loss helps us diagnose overfitting. Since both curves follow a similar downward trend without the validation loss spiking, we can confirm the model generalizes well to unseen data.
+
+Accuracy is our primary success metric for this classification task. The validation accuracy chart shows the model reaches high performance of near 99%.
+[Image1](reports/figures/q14_1.jpeg)
+[Image2](reports/figures/q14_2.jpeg)
+[Image3](reports/figures/q14_3.jpeg)
 
 ### Question 15
 
@@ -378,7 +395,7 @@ link to docker file: [trainer.dockerfile](docker/trainer.dockerfile)
 >
 > Answer:
 
---- question 16 fill here ---
+Debugging strategies were handled individually by each team member based on their specific components. As our code was kept in a modular and simple manner, the local debugging tools integrated within VS Code, such as interactive breakpoints and variable monitoring, were sufficient for identifying and fixing logical errors. We did not conduct extensive profiling, as the straightforward execution flow and minimal overhead ensured the code was already highly efficient for our experimental needs. Additionally, we extensively used the error logs which a generated once a bug is incurred. Lastly, we used Claude Agent for debugging. 
 
 ## Working in the cloud
 
@@ -399,7 +416,16 @@ Cloud Storage: is used for storing and version controlling our datasets through 
 
 Compute Engine: is used for running our model training on a virtual machine. We deployed a VM instance (name: ric-instance, type: e2-medium) in the europe-west1-b zone. This VM provides the computational resources needed to train our image classification model in the cloud, eliminating the need for local GPU hardware and allowing us to run long training jobs remotely.
 
-@Theo look up what you used
+Cloud Build: We utilize Google Cloud Build as our CI/CD tool to automate the creation of our container artifacts. As defined in our build configuration, the service executes a pipeline that builds the Docker image from our source code directly on Google's infrastructure and pushes the tagged image to our Artifact Registry. This automation ensures that our training and application images are consistently built and immediately available for deployment.
+
+For VertexAI: to execute and manage our machine learning model training in a scalable, serverless environment. This service ran our custom code from a Docker container. The process was automated via Cloud Build, which compiled the container image and submitted the training job to Vertex AI as part of a CI/CD pipeline defined in a `cloudbuild-trainer.yaml` file.
+
+Cloud Run: We use Cloud Run to deploy and host both the frontend and backend of our application. This serverless platform allows us to deploy our containerized services in a fully managed environment, ensuring that the web-facing components of our project are scalable and accessible without requiring manual infrastructure management.
+
+Artifact Registry: We utilize Google Artifact Registry as the central repository for storing and managing our container images. This allows Cloud Run to securely pull the exact versioned images needed for deployment, ensuring consistency between our build environment and the production environment.
+
+All our used services can be found here:
+[Image1](reports/figures/q17.jpeg)
 
 ### Question 18
 
@@ -481,7 +507,8 @@ However, we encountered instability during execution. Several jobs failed outrig
 >
 > Answer:
 
---- question 23 fill here ---
+We successfully developed a functional API for our model using FastAPI, which provided an interface for real-time inference. By using its built-in support for an user interface, we utilized the /docs endpoint to interactively test our functions and validate data schemas without writing additional client-side code. This approach allowed us to check that our model remained accessible and easily verifiable during development and final testing. 
+We implemented this API twice, once for the ONNX implementation (new) and once
 
 ### Question 24
 
@@ -497,8 +524,11 @@ However, we encountered instability during execution. Several jobs failed outrig
 >
 > Answer:
 
-We were able to deploy our API both locally and on the cloud. Locally, it is done via FastAPI. Using the FastAPI /docs page, we were able to try out functions without having a proper web interface.
-The process was the same for our cloud access, besides addtional steps to start the application online. (remaining part Theo)
+We deployed our API on Google Cloud Run, a fully managed serverless platform that automatically handles scaling, networking and infrastructure. For deployment, we wrapped our ONNX model in a FastAPI application that handles image uploads, preprocessing, model inference and logging of predictions to Google Cloud Storage. The API also exposes Prometheus metrics for monitoring request counts, prediction latency, and error rates.
+
+Cloud Run was chosen because it allows us to deploy containerized applications without managing servers. This is particularly useful for machine learning applications where request volumes may fluctuate. Users can invoke the service by sending a POST request with an image file to the /predict endpoint, which returns a JSON response with the predicted label and probability. Since we also deployed frontend API as well, users also can use UI to upload the pictures to analyse.
+
+Overall, this setup ensures keeping the operational overhead minimal and enabling continuous monitoring and logging for future analysis or retraining.
 
 ### Question 25
 
@@ -528,7 +558,9 @@ The process was the same for our cloud access, besides addtional steps to start 
 >
 > Answer:
 
---- question 26 fill here ---
+We have implemented basic monitoring for our deployed model using Prometheus metrics and GCP logging. The API collects metrics such as total number of requests, prediction errors, prediction latency and uploaded image sizes. These metrics are showed via the /metrics endpoint for Prometheus scraping. Moreover we added each prediction, including the filename, probability, predicted label, and timestamp to Google Cloud Storage for historical analysis.
+
+Monitoring helps the longevity of our application by allowing us to detect anomalies such as sudden spikes in errors or unusually long inference times. These may indicate model degradation or infrastructure issues. Tracking image sizes and request volumes also informs scaling decisions. Over time, these insights allow us to maintain model performance, ensure reliability and plan retraining.
 
 ## Overall discussion of project
 
@@ -597,8 +629,7 @@ Student 250247 using the central Google Cloud account for all infrastructure wor
 >
 > Answer:
 
-One of the struggles of the project was managing infrastructure and deployment complexity. A significant amount of time was spent on the Docker build process in the cloud, where each image build took approximately 20 minutes. This severely slowed our development cycle, as testing any change to the dependencies or application code required a lengthy wait.
-++
+One of the struggles of the project was managing infrastructure and deployment complexity. A significant amount of time was spent on the Docker build process in the cloud, where each image build took approximately 20 minutes. This severely slowed our development cycle, as testing any change to the dependencies or application code required a lengthy wait. We also struggled through running model training on cloud. First we worked on Vertex AI, model slowly trained on CPU but we couldn't manage to use the advantages of GPU.
 
 ### Question 31
 
@@ -616,11 +647,12 @@ One of the struggles of the project was managing infrastructure and deployment c
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-++
 Student s250247 was responsible for filling in the MLOps canvas, managing version control using DVC, creating and managing the Google Cloud environment, and developing the Docker containers. 
+Student s252653 was responsible for writing the scripts of model and dataset, editing model code suitable for lightning, creating unit tests, deploying backend and frontend, writing frontend, transforming api made by torch to the ONNX.
+Student s256664 ++
+Student s243973 ++
 All team members contributed to the codebase, documentation, and participated in problem-solving discussions. 
-We have used generative AI tools, specifically Claude, to assist in clarifying technical concepts. Additionally, Claude Agent was used for debugging. 
-
+We have used generative AI tools, specifically Claude and Gemini, to assist in clarifying technical concepts. Additionally, Claude Agent and Copilot was used for debugging. 
 
 
 ## Project Description
