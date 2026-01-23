@@ -441,7 +441,7 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](reports/figures/Q20.png)
+[Image1](reports/figures/Q21.png)
 
 ### Question 22
 
