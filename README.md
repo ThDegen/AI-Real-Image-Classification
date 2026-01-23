@@ -91,7 +91,7 @@ will check the repositories and the code to verify your answers.
 * [x] Create a FastAPI application that can do inference using your model (M22)
 * [x] Deploy your model in GCP using either Functions or Run as the backend (M23)
 * [x] Write API tests for your application and setup continues integration for these (M24)
-* [ ] Load test your application (M24)
+* [x] Load test your application (M24)
 * [x] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
 * [x] Create a frontend for your API (M26)
 
@@ -102,14 +102,14 @@ will check the repositories and the code to verify your answers.
 * [ ] Deploy to the cloud a drift detection API (M27)
 * [x] Instrument your API with a couple of system metrics (M28)
 * [x] Setup cloud monitoring of your instrumented application (M28)
-* [ ] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
+* [x] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
 * [x] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 * [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
 * [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
 ### Extra
 
-* [ ] Write some documentation for your application (M32)
+* [x] Write some documentation for your application (M32)
 * [ ] Publish the documentation to GitHub Pages (M32)
 * [x] Revisit your initial project description. Did the project turn out as you wanted?
 * [x] Create an architectural diagram over your MLOps pipeline
@@ -148,7 +148,7 @@ s256664, s252653, s250247, s243973
 >
 > Answer:
 
-No, we did not use any open-source frameworks/packages besindes the ones mentioned during the course.
+No, we did not use any open-source frameworks/packages besides the ones mentioned during the course.
 
 ## Coding environment
 
@@ -226,6 +226,7 @@ These concepts are critical in larger projects because they maintain codebase he
 We implemented two unit tests for our dataset. Since using the full dataset for testing is not practical, we included two sample images under tests/train_data and their corresponding labels in tests/train.csv.
 The tests in test_data.py verify, image preprocessing works correctly, dataset length matches the expected number of samples, the types of the image and label are correct (torch.Tensor and int), images have 3 channels and lastly transformations such as resizing are applied correctly.
 Tests inside the test_model.py ensures that the model’s training, validation, and testing steps work as expected. It runs a single batch through all stages using synthetic data to verify that all model methods, logging, and optimizers are reachable. Assertions check both the output shape and type, which is essential for the project.
+Additionally, we also implemented some api tests.
 
 ### Question 8
 
@@ -240,7 +241,8 @@ Tests inside the test_model.py ensures that the model’s training, validation, 
 >
 > Answer:
 
-[Image1](reports/figures/q8.jpeg)
+![Image1](reports/figures/q8.jpeg)
+
 The total code coverage of our project is 96%, calculated across all source and test files. Most modules have 100% coverage, while the model module has slightly lower coverage (90%) due to a few untested lines. Overall, this level of coverage gives us a high degree of confidence that the core functionality behaves as expected under normal conditions.
 However, even if our code coverage were 100%, we would not consider the code to be completely error free. Code coverage covers only performance of model and dataset on dummy data, edge cases or real-world scenarios are not handled. Bugs related to numerical stability, unexpected input data, deployment environments, or performance issues may still exist despite full coverage. Therefore, high coverage is an important however it should be complemented with careful reviews.
 
@@ -257,7 +259,7 @@ However, even if our code coverage were 100%, we would not consider the code to 
 >
 > Answer:
 
-During the creation of our project, we used branches in order to try out local changes without affecting the workflow of other team members. When changes were made, we opened a pull request where team members controlled that there isn't anything affecting the performance of the main project. After torough testing and if no problem was found, we merged them back to the main branch. We also included automated unit tests to automatically check the integrity of the code.
+During the creation of our project, we used branches in order to try out local changes without affecting the workflow of other team members. When changes were made, we opened a pull request where team members controlled that there isn't anything affecting the performance of the main project. After torough testing and if no problem was found, we merged them back to the main branch. We also included automated unit tests to automatically check the integrity of the code. As our last step we merged all branches, as requested, into the main branch.
 
 ### Question 10
 
@@ -357,9 +359,9 @@ The charts in the first and third images track three critical metrics of Loss, A
 Tracking training and validation Loss is essential for monitoring convergence. As shown in the validation loss graph, the loss decreases steadily. This indicates the model is effectively learning features without significant divergence. Comparing train_loss against val_loss helps us diagnose overfitting. Since both curves follow a similar downward trend without the validation loss spiking, we can confirm the model generalizes well to unseen data.
 
 Accuracy is our primary success metric for this classification task. The validation accuracy chart shows the model reaches high performance of near 99%.
-[Image1](reports/figures/q14_1.jpeg)
-[Image2](reports/figures/q14_2.jpeg)
-[Image3](reports/figures/q14_3.jpeg)
+![Image1](reports/figures/q14_1.jpeg)
+![Image2](reports/figures/q14_2.jpeg)
+![Image3](reports/figures/q14_3.jpeg)
 
 ### Question 15
 
@@ -425,7 +427,7 @@ Cloud Run: We use Cloud Run to deploy and host both the frontend and backend of 
 Artifact Registry: We utilize Google Artifact Registry as the central repository for storing and managing our container images. This allows Cloud Run to securely pull the exact versioned images needed for deployment, ensuring consistency between our build environment and the production environment.
 
 All our used services can be found here:
-[Image1](reports/figures/q17.jpeg)
+![Image1](reports/figures/q17.jpeg)
 
 ### Question 18
 
@@ -453,8 +455,8 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](reports/figures/Q19_1.png)
-[Image2](reports/figures/Q19_2.png)
+![Image1](reports/figures/Q19_1.png)
+![Image2](reports/figures/Q19_2.png)
 
 ### Question 20
 
@@ -463,10 +465,10 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](reports/figures/Q20_2.png)
-[Image2](reports/figures/q20_4.jpeg)
-[Image3](reports/figures/q20_5.jpeg)
-[Image4](reports/figures/q20_3.jpeg)
+![Image1](reports/figures/Q20_2.png)
+![Image2](reports/figures/q20_4.jpeg)
+![Image3](reports/figures/q20_5.jpeg)
+![Image4](reports/figures/q20_3.jpeg)
 
 ### Question 21
 
@@ -475,7 +477,7 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](reports/figures/Q21.png)
+![Image1](reports/figures/Q21.png)
 
 ### Question 22
 
@@ -491,8 +493,8 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 > Answer:
 
 Our approach to model training utilized Google Cloud's Vertex AI platform through a CI/CD pipeline. We defined the training infrastructure in a `cloudbuild-trainer.yaml` file, which orchestrated building our pre-developed Docker container directly in the cloud. The workflow was initiated locally by submitting the build configuration with the command `gcloud builds submit . --config=cloudbuild-trainer.yaml.` Once the custom training job was created, we monitored its progress in real-time by streaming logs from the gcloud shell using the `gcloud ai custom-jobs stream-logs` command followed by the specific job path.
-
-However, we encountered instability during execution. Several jobs failed outright, while others halted unexpectedly. These interruptions were most frequently attributed to timeout limitations, where the job duration exceeded the default or configured runtime allowance before completion. 
+In order to run the training we also used the secret manager to keep weights and biases keys required in our script. 
+However, we encountered instability during execution. Several jobs failed outright when we tried to run the training script on GPU. However, we were able to run the training on CPU environment. These interruptions were most frequently attributed to timeout limitations (on GPU environment), where the job duration exceeded the default or configured runtime allowance before completion. 
 
 ## Deployment
 
@@ -510,7 +512,7 @@ However, we encountered instability during execution. Several jobs failed outrig
 > Answer:
 
 We successfully developed a functional API for our model using FastAPI, which provided an interface for real-time inference. By using its built-in support for an user interface, we utilized the /docs endpoint to interactively test our functions and validate data schemas without writing additional client-side code. This approach allowed us to check that our model remained accessible and easily verifiable during development and final testing. 
-We implemented this API twice, once for the ONNX implementation (new) and once
+We implemented this API twice, once for the ONNX implementation (new) and once for the torch-based model (old). We used ONNX implementation in order to enable cross-platform and cross-library support while improving inference performance.
 
 ### Question 24
 
@@ -546,7 +548,7 @@ Overall, this setup ensures keeping the operational overhead minimal and enablin
 > Answer:
 
 For unit testing, we utilized the pytest framework combined with FastAPI's TestClient to ensure individual components functioned correctly. We implemented test cases that verified our API endpoints, specifically the /predict route, returned the correct HTTP status codes and valid JSON structures containing the expected probability and prediction labels. For load testing, we employed the Locust framework to evaluate the system's performance under stress. We created a custom locustfile that defined a simulated user capable of generating dummy image data in memory and sending concurrent POST requests to our model. Results of our testing can be found here:
-[Image1](reports/figures/q25.png)
+![Image1](reports/figures/q25.png)
 
 ### Question 26
 
@@ -583,9 +585,7 @@ Monitoring helps the longevity of our application by allowing us to detect anoma
 > Answer:
 
 As the model was trained locally, this didn't cause any issues. Additionally, we made sure to use lightweight Python versions and use economically inexpensive cloud hardware.
-Student 250247 using the central Google Cloud account for all infrastructure work consumed roughly kr. 45.08 in credits. The most expensive service was Container Registry Vulnerability Scanning at kr. 39.54, an automated security feature that became the main cost driver. Working in the cloud provided essential tools for our MLOps pipeline but underscored the critical need to monitor and understand the cost implications of every enabled service.
-
-++@all report credits)
+Student 250247 using the central Google Cloud account for all infrastructure work consumed roughly kr. 45.08 in credits. The most expensive service was Container Registry Vulnerability Scanning at kr. 39.54, an automated security feature that became the main cost driver. s256664 spent USD 0.02 for testing Cloud Run. S252653 spent kr. 50 mostly for container registry. Working in the cloud provided essential tools for our MLOps pipeline but underscored the critical need to monitor and understand the cost implications of every enabled service.
 
 ### Question 28
 
@@ -605,7 +605,7 @@ We implemented a user-friendly frontend for our API to make the model accessible
 
 The frontend allows users to easily upload an image file (JPG, JPEG, or PNG) via a drag-and-drop interface. Once an image is uploaded, the application displays it and provides a "Predict" button. When clicked, the frontend sends the image data as a request to our backend API hosted on Google Cloud Run.
 
-++ maybe add alert part here
+We also implemented an alert system for APIs. This system gives a warning based on the usage count of the service.
 
 ### Question 29
 
@@ -623,8 +623,8 @@ The frontend allows users to easily upload an image file (JPG, JPEG, or PNG) via
 > Answer:
 
 
-Our MLOps pipeline is designed to automate the entire lifecycle of our machine learning model from development to production The process begins with data and code management, where source code is versioned in GitHub, and large datasets are managed using DVC (Data Version Control). When code is pushed to the repository, Github Actions triggered and tests are done. If tests are passed, Google Cloud Build triggers a CI/CD workflow that builds Docker images for our training script, storing them in Artifact Registry. For model training, we used Vertex AI to execute training jobs using these containerized images. During training, Weights & Biases tracks our experiments and performance metrics in real-time. Finally, we deploy backend and frontend images through Cloud Run, where a FastAPI backend serves predictions to an Streamlit frontend by using trained weights.
-[Image1](reports/figures/q31.jpeg)
+Our MLOps pipeline is designed to automate the entire lifecycle of our machine learning model from development to production. The process begins with data and code management, where source code is versioned in GitHub, and large datasets are managed using DVC (Data Version Control). When code is pushed to the repository, Github Actions are triggered and tests are done. If tests are passed, Google Cloud Build triggers a CI/CD workflow that builds Docker images for our training script, storing them in Artifact Registry. For model training, we used Vertex AI to execute training jobs using these containerized images. During training, Weights & Biases tracks our experiments and performance metrics in real-time. Finally, we deploy backend and frontend images through Cloud Run, where a FastAPI backend serves predictions to an Streamlit frontend by using trained weights.
+![Image1](reports/figures/q31.jpeg)
 
 ### Question 30
 
@@ -638,7 +638,8 @@ Our MLOps pipeline is designed to automate the entire lifecycle of our machine l
 >
 > Answer:
 
-One of the struggles of the project was managing infrastructure and deployment complexity. A significant amount of time was spent on the Docker build process in the cloud, where each image build took approximately 20 minutes. This severely slowed our development cycle, as testing any change to the dependencies or application code required a lengthy wait. We also struggled through running model training on cloud. First we worked on Vertex AI, model slowly trained on CPU but we couldn't manage to use the advantages of GPU.
+One of the struggles of the project was managing infrastructure and deployment complexity. A significant amount of time was spent on the Docker build process in the cloud, where each image build took approximately 20 minutes. This severely slowed our development cycle, as testing any change to the dependencies or application code required a lengthy wait. This inefficiency was particularly frustrating during the integration phase, where small configuration errors required full rebuilds, leading to significant downtime for the entire team. To fix this issue, we minimized the included libraries on docker files of frontend and backend. We only used the necessary libraries which resulted on a faster image generation.
+We also struggled through running model training on cloud. First we worked on Vertex AI, model slowly trained on CPU but we couldn't manage to use the advantages of GPU. Every time we ran the image, our training stucked on first epoch. However, when we ran on CPU, we were able to train and visualize the results. As we weren't able to solve this issue after multiple fixing ideas, we simply decided to stick with CPU usage. As a result, we prioritized a functional and stable CPU pipeline over an inconsistent GPU setup to ensure we could deliver the final model on time.
 
 ### Question 31
 
@@ -657,8 +658,8 @@ One of the struggles of the project was managing infrastructure and deployment c
 > Answer:
 
 Student s250247 was responsible for filling in the MLOps canvas, managing version control using DVC, creating and managing the Google Cloud environment, and developing the Docker containers. 
-Student s252653 was responsible for writing the scripts of model and dataset, editing model code suitable for lightning, creating unit tests, deploying backend and frontend, writing frontend, transforming api made by torch to the ONNX.
-Student s256664 was responsible for implementing Cloud Run and FastAPI for the torch implementation of our model, their respective api tests and for load testing.
+Student s252653 was responsible for writing the scripts of model and dataset, editing model code suitable for lightning, creating unit tests, deploying backend and frontend, writing frontend, transforming api made by torch to the ONNX, create a trigger workflow for automatically building your docker images.
+Student s256664 was responsible for implementing Cloud Run and FastAPI for the torch implementation of our model (old), their respective api tests and for load testing.
 Student s243973 was responsible for designing and maintaining the continuous integration workflows, implementing linting and automated testing, and ensuring cross-platform compatibility through multi-OS and multi-Python version testing.
 All team members contributed to the codebase, documentation, and participated in problem-solving discussions. 
 We have used generative AI tools, specifically Claude and Gemini, to assist in clarifying technical concepts. Additionally, Claude Agent and Copilot was used for debugging. 
