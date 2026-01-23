@@ -421,8 +421,8 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](figures/Q19_1.png)
-[Image2](figures/Q19_2.png)
+[Image1](reports/figures/Q19_1.png)
+[Image2](reports/figures/Q19_2.png)
 
 ### Question 20
 
@@ -431,8 +431,8 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](figures/Q20_1.png)
-[Image2](figures/Q20_2.png)
+[Image1](reports/figures/Q20_1.png)
+[Image2](reports/figures/Q20_2.png)
 
 ### Question 21
 
@@ -441,7 +441,7 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
-[Image1](figures/Q20.png)
+[Image1](reports/figures/Q20.png)
 
 ### Question 22
 
