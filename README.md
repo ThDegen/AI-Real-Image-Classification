@@ -421,7 +421,8 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
---- question 19 fill here ---
+[Image1](figures/Q19_1.png)
+[Image2](figures/Q19_2.png)
 
 ### Question 20
 
@@ -430,7 +431,8 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
---- question 20 fill here ---
+[Image1](figures/Q20_1.png)
+[Image2](figures/Q20_2.png)
 
 ### Question 21
 
@@ -439,7 +441,7 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
---- question 21 fill here ---
+[Image1](figures/Q20.png)
 
 ### Question 22
 
@@ -454,7 +456,9 @@ The Compute Engine setup integrated with our other GCP services-the VM could dir
 >
 > Answer:
 
---- question 22 fill here ---
+Our approach to model training utilized Google Cloud's Vertex AI platform through a CI/CD pipeline. We defined the training infrastructure in a `cloudbuild-trainer.yaml` file, which orchestrated building our pre-developed Docker container directly in the cloud. The workflow was initiated locally by submitting the build configuration with the command `gcloud builds submit . --config=cloudbuild-trainer.yaml.` Once the custom training job was created, we monitored its progress in real-time by streaming logs from the gcloud shell using the `gcloud ai custom-jobs stream-logs` command followed by the specific job path.
+
+However, we encountered instability during execution. Several jobs failed outright, while others halted unexpectedly. These interruptions were most frequently attributed to timeout limitations, where the job duration exceeded the default or configured runtime allowance before completion. 
 
 ## Deployment
 
@@ -537,7 +541,9 @@ The process was the same for our cloud access, besides addtional steps to start 
 >
 > Answer:
 
-As the model was trained locally, this didn't cause any issues. Additionally, we made sure to use lightweight Python versions and use economically inexpensive cloud hardware. @all report credits)
+As the model was trained locally, this didn't cause any issues. Additionally, we made sure to use lightweight Python versions and use economically inexpensive cloud hardware.
+Student 250247 using the central Google Cloud account for all infrastructure work consumed roughly kr. 45.08 in credits, which were fully covered by our free grant. The most expensive service was Container Registry Vulnerability Scanning at kr. 39.54, an automated security feature that became the main cost driver. Working in the cloud provided essential tools for our MLOps pipeline but underscored the critical need to monitor and understand the cost implications of every enabled service.
+++@all report credits)
 
 ### Question 28
 
@@ -584,7 +590,8 @@ As the model was trained locally, this didn't cause any issues. Additionally, we
 >
 > Answer:
 
---- question 30 fill here ---
+One of the struggles of the project was managing infrastructure and deployment complexity. A significant amount of time was spent on the Docker build process in the cloud, where each image build took approximately 20 minutes. This severely slowed our development cycle, as testing any change to the dependencies or application code required a lengthy wait.
+++
 
 ### Question 31
 
@@ -602,7 +609,10 @@ As the model was trained locally, this didn't cause any issues. Additionally, we
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+++
+Student s250247 was responsible for filling in the MLOps canvas, managing version control using DVC, creating and managing the Google Cloud environment, and developing the Docker containers. 
+All team members contributed to the codebase, documentation, and participated in problem-solving discussions. 
+We have used generative AI tools, specifically Claude, to assist in clarifying technical concepts. Additionally, Claude Agent was used for debugging. 
 
 
 
