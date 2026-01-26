@@ -1,0 +1,34 @@
+name: DVC Workflow
+
+on:
+  pull_request:
+    branches:
+    - main
+    paths:
+    - '**/*.dvc'
+    - '.dvc/**'
+
+jobs:
+  run_data_checker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        python-version: 3.12
+        enable-cache: true
+
+    - name: Install dependencies
+      run: |
+        uv sync --dev --locked
+
+    - name: Download data from Kaggle
+      run: |
+        python make_dataset.py
+
+    - name: Check data statistics
+      run: |
+        python dataset_statistics.py
